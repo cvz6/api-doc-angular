@@ -1,0 +1,118 @@
+.api-details {
+  color: #333333;
+  min-height: 800px;
+  padding: 6px;
+  p {
+    margin: 6px 0px;
+  }
+  .api-details-title {
+    font-size: 16px;
+    color: #333333;
+    font-weight: bold;
+    padding: 10px 0;
+  }
+  .api-panel-title {
+    p {
+      padding: 0 8px;
+    }
+  }
+  .api-panel-footer {
+    background: #ffffff;
+    font-size: 0.8em;
+    color: #333333;
+    .jg {
+      margin-left: 10px;
+    }
+    input {
+      font-weight: 700;
+      font-size: 1.3em;
+      color: #000000;
+    }
+  }
+  .gekai {
+    height: 10px;
+    width: 30px;
+  }
+}
+
+.centerLogo {
+  margin-top: 240px;
+  background-color: #ffffff;
+  color: deepskyblue;
+  font-weight: 600;
+  font-size: 30px;
+  text-align: center;
+  span {
+    font-size: 13px;
+  }
+}
+
+:host ::ng-deep nz-layout {
+  height: 100%;
+  overflow: scroll;
+}
+
+:host ::ng-deep nz-sider {
+  height: 100%;
+  overflow: scroll;
+}
+
+:host ::ng-deep .logo {
+  background: #333;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  height: 64px;
+  line-height: 64px;
+  font-size: 22px;
+  text-align: center;
+  span {
+    font-size: 12px;
+  }
+}
+
+:host ::ng-deep .ant-layout-sider-collapsed .nav-text {
+  display: none;
+}
+
+:host ::ng-deep .ant-layout-sider-collapsed .ant-menu-submenu-title:after {
+  display: none;
+}
+
+:host ::ng-deep .ant-layout-sider-collapsed .anticon {
+  font-size: 16px;
+  margin-left: 8px;
+}
+
+:host ::ng-deep .trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 16px;
+  cursor: pointer;
+  transition: color .3s;
+}
+
+:host ::ng-deep .trigger:hover {
+  color: #108ee9;
+}
+
+:host ::ng-deep .ant-card-body {
+  padding: 0;
+}
+
+:host ::ng-deep .ant-card-head {
+  height: 32px;
+  line-height: 32px;
+  background: #eee;
+}
+
+.oinp {
+  border: none;
+  outline-style: none;
+}
+
+textarea {
+  font-weight: 700;
+  font-size: 0.9em;
+  color: #108ee9;
+}

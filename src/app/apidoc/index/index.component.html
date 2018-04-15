@@ -1,0 +1,150 @@
+<!--未开启文档时显示-->
+<nz-layout *ngIf="show">
+  <nz-content *ngIf="!apiModule" style="background-color: #ffffff;">
+    <div class="centerLogo">
+      文档功能未开启，请联系管理员。
+    </div>
+  </nz-content>
+</nz-layout>
+
+<!--文档开启时显示文档信息-->
+<nz-layout *ngIf="!show">
+  <!--左侧导航-->
+  <nz-sider nzCollapsible [nzCollapsedWidth]="300" [nzTrigger]="null" [nzWidth]="300" *ngIf="apiInfo">
+    <!--版本信息-->
+    <div class="logo">
+      {{apiInfo.title}}<span> ({{apiInfo.version}})</span>
+    </div>
+    <!--菜单列表-->
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'">
+      <li nz-submenu *ngFor="let modules of apiModules; let it = index;">
+        <span title><i class="anticon anticon-right-circle-o"></i>{{modules.name}}</span>
+        <ul *ngIf="modules.list">
+          <li nz-menu-item *ngFor="let moduleItem of modules.list"
+              (click)="getApiDetail(modules.rootMapping,moduleItem)">
+            <i class="anticon anticon-minus-circle-o"></i>{{moduleItem.name}}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <!--右侧文档详情布局-->
+  <!--头部搜索功能-->
+  <!--<nz-header style="background: #fff; padding:0;">-->
+  <!--todo这里增加搜索功能-->
+  <!--</nz-header>-->
+  <!--content 详细内容-->
+  <nz-content *ngIf="apiModule">
+    <div style="padding:20px; background: #ffffff;">
+      <div class="api-details">
+        <!--基本信息-->
+        <div class="panel panel-success">
+          <div class="panel-body api-panel-title" style="padding: 0;">
+            <p class="api-details-title">基本信息</p>
+          </div>
+          <div class="panel-footer api-panel-footer">
+            <p>请求类型:<span class="jg"></span> http</p>
+            <p>接口地址: <span class="jg"></span>{{apiUrl}}</p>
+            <p>请求方式: <span class="jg"></span>{{apiModule.method}}</p>
+            <p>数据类型: <span class="jg"></span>{{apiModule.reqParams.type}}</p>
+            <p>响应类型: <span class="jg"></span>json</p>
+          </div>
+        </div>
+
+        <!--接口描述-->
+        <div class="panel panel-success">
+          <div class="panel-body api-panel-title" style="padding: 0;">
+            <p class="api-details-title">接口描述</p>
+          </div>
+          <div class="panel-footer api-panel-footer">
+            <div class="api-base-info api-edit-box">{{apiModule.description?apiModule.description:'无'}}</div>
+          </div>
+        </div>
+
+        <!--请求参数-->
+        <div class="panel panel-success">
+          <div class="panel-body api-panel-title" style="padding: 0;">
+            <p class="api-details-title">请求参数 <span style="color: #108ee9;">
+                (类型：{{apiModule.reqParams.type}})</span>
+            </p>
+          </div>
+          <div class="panel-footer api-panel-footer">
+            <app-api-param [params]="apiModule.reqParams.params" [require]="true"></app-api-param>
+          </div>
+        </div>
+
+        <!--响应数据-->
+        <div class="panel panel-success">
+          <div class="panel-body api-panel-title" style="padding: 0;">
+            <p class="api-details-title">响应数据</p>
+          </div>
+          <div class="panel-footer api-panel-footer">
+            <app-api-param [params]="apiModule.respParams.params" [require]="false"></app-api-param>
+          </div>
+        </div>
+
+        <!--示例-->
+        <div class="panel panel-success">
+          <div class="panel-body api-panel-title" style="padding: 0;">
+            <p class="api-details-title">示例
+              <span style="color: #108ee9;">(*请求时Header要携带token)</span>
+            </p>
+          </div>
+          <div class="panel-footer api-panel-footer">
+            <h5 style="margin: 10px">请求地址：</h5>
+            <input nz-input readonly="readonly" [(ngModel)]="mapingUrl"/>
+
+            <div *ngIf="showRequestParams">
+              <h5 style="margin: 10px">请求参数：</h5>
+              <textarea readonly="readonly" style="height: 200px" nz-input [(ngModel)]="buildeReqParams"
+                        [nzAutosize]="true"></textarea>
+            </div>
+
+            <h5 style="margin: 10px">响应数据：</h5>
+            <textarea readonly="readonly" style="height: 200px" nz-input [(ngModel)]="buildRespParams"
+                      [nzAutosize]="true"></textarea>
+          </div>
+        </div>
+
+        <!--演示-->
+        <div class="panel panel-success">
+          <div class="panel-body api-panel-title" style="padding: 0;">
+            <p class="api-details-title">演示</p>
+          </div>
+          <div class="panel-footer api-panel-footer">
+            <h5 style="margin: 10px">请求地址：</h5>
+            <input nz-input [(ngModel)]="demoUrl" (keyup.enter)="sendTest()"/>
+
+            <div *ngIf="showRequestParams">
+              <h5 style="margin: 10px">请求参数：</h5>
+              <textarea style="height: 200px;" nz-input [(ngModel)]="demoReqParams" [nzAutosize]="true"></textarea>
+            </div>
+
+            <button nz-button nzType="primary" style="margin-top:10px " (click)="sendTest()">发送</button>
+
+            <div *ngIf="showDemoRespParams">
+              <h5 style="margin: 10px">响应数据：</h5>
+              <textarea style="height: 600px;background-color: #ffedf4; " nz-input [(ngModel)]="demoRespParams"
+                        [nzAutosize]="true"></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </nz-content>
+  <nz-content *ngIf="!apiModule" style="background-color: #ffffff;">
+    <!--版本信息-->
+    <div class="centerLogo" *ngIf="apiInfo">
+      {{apiInfo.title}}<span> （文档版本： {{apiInfo.version}}） </span>
+    </div>
+  </nz-content>
+</nz-layout>
+
+<!--弹窗信息-->
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'加载中，请稍后……'" [nzClosable]="false"
+          [nzContent]="modalContent" [nzFooter]="null">
+  <ng-template #modalContent>
+    <nz-spin nzTip="拼命加载中……"></nz-spin>
+  </ng-template>
+</nz-modal>
