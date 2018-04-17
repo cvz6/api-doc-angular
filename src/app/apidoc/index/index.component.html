@@ -69,7 +69,12 @@
             </p>
           </div>
           <div class="panel-footer api-panel-footer">
-            <app-api-param [params]="apiModule.reqParams.params" [require]="true"></app-api-param>
+            <div *ngIf="apiModule.reqParams.params">
+              <app-api-param [params]="apiModule.reqParams.params" [require]="true"></app-api-param>
+            </div>
+            <div *ngIf="!apiModule.reqParams.params">
+              无
+            </div>
           </div>
         </div>
 
@@ -80,6 +85,9 @@
           </div>
           <div class="panel-footer api-panel-footer">
             <app-api-param [params]="apiModule.respParams.params" [require]="false"></app-api-param>
+          </div>
+          <div *ngIf="!apiModule.respParams.params">
+            无
           </div>
         </div>
 

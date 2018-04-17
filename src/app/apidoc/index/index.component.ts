@@ -62,13 +62,13 @@ export class IndexComponent implements OnInit {
 
   getData() {
     this.isVisible = true;
-    this.http.get('/apidoc/api/'+TYPE).subscribe(
+    this.http.get('/apidoc/api/' + TYPE).subscribe(
       data => {
         this.isVisible = false;
-        if (data&&data["info"]) {
+        if (data && data["info"]) {
           this.apiInfo = data['info'];
           this.apiModules = data['models'];
-        }else{
+        } else {
           this.show = true;
         }
       },
@@ -120,7 +120,7 @@ export class IndexComponent implements OnInit {
 
     //判断请求类型
     if (type === 'url') {
-      this.mapingUrl = ROOT_URL + this.apiUrl + '/{' + reqparams[0].name + '}';
+      this.mapingUrl = ROOT_URL + this.apiUrl + '/参数';
       this.showRequestParams = false;
     } else if (type === 'json') {
       this.mapingUrl = ROOT_URL + this.apiUrl;
@@ -134,12 +134,14 @@ export class IndexComponent implements OnInit {
 
   //构建参数
   private bulidParams(params, result): any {
-    for (const value of params) {
-      if (value.list && value.list.length > 0) {
-        result[value.name] = {};
-        this.bulidParams(value.list, result[value.name]);
-      } else {
-        result[value.name] = value.defaultValue;
+    if (params) {
+      for (const value of params) {
+        if (value.list && value.list.length > 0) {
+          result[value.name] = {};
+          this.bulidParams(value.list, result[value.name]);
+        } else {
+          result[value.name] = value.defaultValue;
+        }
       }
     }
     return result;
