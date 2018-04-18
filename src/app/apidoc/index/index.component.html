@@ -65,14 +65,16 @@
         <div class="panel panel-success">
           <div class="panel-body api-panel-title" style="padding: 0;">
             <p class="api-details-title">请求参数 <span style="color: #108ee9;">
-                (类型：{{apiModule.reqParams.type}})</span>
+                (类型：{{apiModule.reqParams.type?apiModule.reqParams.type:'url'}})</span>
             </p>
           </div>
           <div class="panel-footer api-panel-footer">
-            <div *ngIf="apiModule.reqParams.params">
-              <app-api-param [params]="apiModule.reqParams.params" [require]="true"></app-api-param>
+            <div *ngIf="apiModule.reqParams&&apiModule.reqParams.params">
+              <div *ngIf="apiModule.reqParams.params">
+                <app-api-param [params]="apiModule.reqParams.params" [require]="true"></app-api-param>
+              </div>
             </div>
-            <div *ngIf="!apiModule.reqParams.params">
+            <div *ngIf="!apiModule.reqParams||!apiModule.reqParams.params">
               无
             </div>
           </div>

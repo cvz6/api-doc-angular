@@ -104,8 +104,11 @@ export class IndexComponent implements OnInit {
     console.log(JSON.stringify(module));
 
     this.apiModule = module;
+    if (!this.apiModule.reqParams) {
+      this.apiModule.reqParams = {type: 'url'};//默认为url
+    }
     this.method = module.method;
-    this.apiUrl = rootMapping + this.apiModule.mapping;
+    this.apiUrl = "/" + rootMapping + this.apiModule.mapping;
 
 
     //组装请求参数 和 响应参数
@@ -120,7 +123,12 @@ export class IndexComponent implements OnInit {
 
     //判断请求类型
     if (type === 'url') {
-      this.mapingUrl = ROOT_URL + this.apiUrl + '/参数';
+      if (this.apiModule && this.apiModule.reqParams && this.apiModule.reqParams.params &&
+        this.apiModule.reqParams.params.length > 0) {
+        this.mapingUrl = ROOT_URL + this.apiUrl + '/这里写你的参数';
+      }else {
+        this.mapingUrl = ROOT_URL + this.apiUrl;
+      }
       this.showRequestParams = false;
     } else if (type === 'json') {
       this.mapingUrl = ROOT_URL + this.apiUrl;
@@ -187,7 +195,7 @@ export class IndexComponent implements OnInit {
   private error(error) {
     this.isVisible = false;
     console.log(error);
-    this.demoRespParams = this.ERROR_MSG;
+    this.demoRespParams = this.ERROR_MSG + "   " + JSON.stringify(error);
   }
 
   //格式化json数据
