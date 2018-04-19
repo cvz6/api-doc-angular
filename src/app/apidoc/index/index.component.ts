@@ -166,7 +166,7 @@ export class IndexComponent implements OnInit {
         this.http.get(this.demoUrl).subscribe(data => this.success(data), error => this.error(error));
         break;
       case 'post':
-        this.http.post(this.apiUrl, this.demoReqParams).subscribe(data => this.success(data), error => this.error(error));
+        this.http.post(this.apiUrl, JSON.parse(this.demoReqParams)).subscribe(data => this.success(data), error => this.error(error));
         break;
       case 'put':
         this.http.put(this.apiUrl, this.demoReqParams).subscribe(data => this.success(data), error => this.error(error));
