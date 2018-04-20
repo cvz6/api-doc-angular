@@ -74,7 +74,7 @@ export class HttpService {
       formData.append(fileKey, files[i]);
     }
     if (obj) {
-      console.log(JSON.stringify(obj));
+      // console.log(JSON.stringify(obj));
       for (let i = 0; i < obj.length; i++) {
         console.log(JSON.stringify(obj[i]));
         // 这里拼接对象

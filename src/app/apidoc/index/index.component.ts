@@ -3,6 +3,12 @@ import {ROOT_URL, TYPE} from '../../config';
 import {HttpService} from '../../http-service.service';
 import {NzMessageService} from 'ng-zorro-antd';
 
+/**
+ * 首先声明：该前端代码用了最新的angular版本，语法是最新的
+ * 但是： 细节处理和算法上非常粗糙，哈哈哈，时间有限，公司急着用，先实现再说吧，后期优化
+ * 如果你看到某个算法，觉得傻逼，没事，本来应该写一天的功能，我20分钟就实现了，理解下下。  /偷笑  :)
+ *
+ */
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
@@ -16,6 +22,7 @@ export class IndexComponent implements OnInit {
   apiInfo: any; // 文档基本信息
   apiModules: any; // 功能模块信息列表
   apiModule: any; // 某个功能模块信息
+  paramType;//请求参数类型
 
   //示例功能--------构建的数据
   method: any; // 请求方法
@@ -32,6 +39,7 @@ export class IndexComponent implements OnInit {
   demoRespParams: any;//请求后得到的数据
   showDemoRespParams = false;//是否显示响应数据
   ERROR_MSG: any = '请求地址错误,服务器无响应或JavaScript跨域错误';
+  file;//上传文件
 
   /**
    * 清空缓存
@@ -48,6 +56,7 @@ export class IndexComponent implements OnInit {
     this.demoUrl = null;
     this.demoRespParams = null;
     this.showDemoRespParams = null;
+    this.paramType = null;
   }
 
 
@@ -108,6 +117,7 @@ export class IndexComponent implements OnInit {
       this.apiModule.reqParams = {type: 'url'};//默认为url
     }
     this.method = module.method;
+    this.paramType = this.apiModule.reqParams.type;
     this.apiUrl = "/" + rootMapping + this.apiModule.mapping;
 
 
@@ -126,18 +136,24 @@ export class IndexComponent implements OnInit {
       if (this.apiModule && this.apiModule.reqParams && this.apiModule.reqParams.params &&
         this.apiModule.reqParams.params.length > 0) {
         this.mapingUrl = ROOT_URL + this.apiUrl + '/这里写你的参数';
-      }else {
+      } else {
         this.mapingUrl = ROOT_URL + this.apiUrl;
       }
       this.showRequestParams = false;
     } else if (type === 'json') {
       this.mapingUrl = ROOT_URL + this.apiUrl;
+    } else {
+      this.mapingUrl = ROOT_URL + this.apiUrl;
     }
     this.buildeReqParams = this.fromtJSON(this.bulidParams(reqparams, {}));
     this.buildRespParams = this.fromtJSON(this.bulidParams(respparams, {}));
 
-    this.demoReqParams = JSON.parse(JSON.stringify(this.buildeReqParams));//得到一个拷贝，给演示功能用 目的：隔段双向绑定
+    this.demoReqParams = JSON.parse(JSON.stringify(this.buildeReqParams));//得到一个拷贝，给演示功能用 目的：隔断双向绑定
     this.demoUrl = JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
+    if (type === 'form') {
+      console.log(Object.keys(JSON.parse(this.demoReqParams)));
+      this.file = Object.keys(JSON.parse(this.demoReqParams))[0];
+    }
   }
 
   //构建参数
@@ -146,12 +162,12 @@ export class IndexComponent implements OnInit {
       for (const value of params) {
         if (value.list && value.list.length > 0) {
 
-          if(value.dataType==="object"){//对象
+          if (value.dataType === "object") {//对象
             result[value.name] = {};
             this.bulidParams(value.list, result[value.name]);
           }
 
-          if(value.dataType==="array"){//数组
+          if (value.dataType === "array") {//数组
             result[value.name] = [{}];
             this.bulidParams(value.list, result[value.name][0]);
           }
@@ -212,5 +228,10 @@ export class IndexComponent implements OnInit {
     return JSON.stringify(josn, null, 2);
   }
 
+  //上传文件
+  sendfile($event) {
+    this.http.upload(this.apiUrl,$event,this.file).subscribe(data => this.success(data), error => this.error(error));
+
+  }
 
 }

@@ -94,7 +94,7 @@
         </div>
 
         <!--示例-->
-        <div class="panel panel-success">
+        <div class="panel panel-success" *ngIf="paramType!=='form'">
           <div class="panel-body api-panel-title" style="padding: 0;">
             <p class="api-details-title">示例
               <span style="color: #108ee9;">(*请求时Header要携带token)</span>
@@ -104,15 +104,11 @@
             <h5 style="margin: 10px">请求地址：</h5>
             <input nz-input readonly="readonly" [(ngModel)]="mapingUrl"/>
 
-            <div *ngIf="showRequestParams">
-              <h5 style="margin: 10px">请求参数：</h5>
-              <textarea readonly="readonly" style="height: 200px" nz-input [(ngModel)]="buildeReqParams"
-                        [nzAutosize]="true"></textarea>
-            </div>
+            <h5 style="margin: 10px">请求参数：</h5>
+            <pre>{{buildeReqParams}}</pre>
 
             <h5 style="margin: 10px">响应数据：</h5>
-            <textarea readonly="readonly" style="height: 200px" nz-input [(ngModel)]="buildRespParams"
-                      [nzAutosize]="true"></textarea>
+            <pre>{{buildRespParams}}</pre>
           </div>
         </div>
 
@@ -125,18 +121,37 @@
             <h5 style="margin: 10px">请求地址：</h5>
             <input nz-input [(ngModel)]="demoUrl" (keyup.enter)="sendTest()"/>
 
-            <div *ngIf="showRequestParams">
-              <h5 style="margin: 10px">请求参数：</h5>
-              <textarea style="height: 200px;" nz-input [(ngModel)]="demoReqParams" [nzAutosize]="true"></textarea>
+            <!--请求参数为json-->
+            <div *ngIf="paramType!=='form'">
+              <div *ngIf="showRequestParams">
+                <h5 style="margin: 10px">请求参数：</h5>
+                <textarea style="height: 200px;" nz-input [(ngModel)]="demoReqParams" [nzAutosize]="true"></textarea>
+              </div>
+
+              <button nz-button nzType="primary" style="margin-top:10px " (click)="sendTest()">发送</button>
+
+              <div *ngIf="showDemoRespParams">
+                <h5 style="margin: 10px">响应数据：</h5>
+                <textarea style="height: 600px;background-color: #ffedf4; " nz-input [(ngModel)]="demoRespParams"
+                          [nzAutosize]="true"></textarea>
+              </div>
             </div>
 
-            <button nz-button nzType="primary" style="margin-top:10px " (click)="sendTest()">发送</button>
+            <!--上传文件-->
+            <div *ngIf="paramType==='form'">
+              <div *ngIf="showRequestParams">
+                <h5 style="margin: 10px">请求参数：</h5>
+                {{file}}: <input style="font-size: 0.8em; display: inline;" multiple (change)="sendfile($event)"  type="file"/>
+              </div>
 
-            <div *ngIf="showDemoRespParams">
-              <h5 style="margin: 10px">响应数据：</h5>
-              <textarea style="height: 600px;background-color: #ffedf4; " nz-input [(ngModel)]="demoRespParams"
-                        [nzAutosize]="true"></textarea>
+              <div *ngIf="showDemoRespParams">
+                <h5 style="margin: 10px">响应数据：</h5>
+                <textarea style="height: 600px;background-color: #ffedf4; " nz-input [(ngModel)]="demoRespParams"
+                          [nzAutosize]="true"></textarea>
+              </div>
             </div>
+
+
           </div>
         </div>
 
