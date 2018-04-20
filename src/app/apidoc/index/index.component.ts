@@ -145,8 +145,17 @@ export class IndexComponent implements OnInit {
     if (params) {
       for (const value of params) {
         if (value.list && value.list.length > 0) {
-          result[value.name] = {};
-          this.bulidParams(value.list, result[value.name]);
+
+          if(value.dataType==="object"){//对象
+            result[value.name] = {};
+            this.bulidParams(value.list, result[value.name]);
+          }
+
+          if(value.dataType==="array"){//数组
+            result[value.name] = [{}];
+            this.bulidParams(value.list, result[value.name][0]);
+          }
+
         } else {
           result[value.name] = value.defaultValue;
         }
