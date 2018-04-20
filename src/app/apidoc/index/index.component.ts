@@ -118,7 +118,7 @@ export class IndexComponent implements OnInit {
     }
     this.method = module.method;
     this.paramType = this.apiModule.reqParams.type;
-    this.apiUrl = "/" + rootMapping + this.apiModule.mapping;
+    this.apiUrl = rootMapping + this.apiModule.mapping;
 
 
     //组装请求参数 和 响应参数
@@ -194,7 +194,7 @@ export class IndexComponent implements OnInit {
         this.http.post(this.apiUrl, JSON.parse(this.demoReqParams)).subscribe(data => this.success(data), error => this.error(error));
         break;
       case 'put':
-        this.http.put(this.apiUrl, this.demoReqParams).subscribe(data => this.success(data), error => this.error(error));
+        this.http.put(this.apiUrl, JSON.parse(this.demoReqParams)).subscribe(data => this.success(data), error => this.error(error));
         break;
       case 'delete':
         this.http.delete(this.apiUrl).subscribe(data => this.success(data), error => this.error(error));
