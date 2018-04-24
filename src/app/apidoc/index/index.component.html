@@ -69,11 +69,26 @@
             </p>
           </div>
           <div class="panel-footer api-panel-footer">
+
             <div *ngIf="apiModule.reqParams&&apiModule.reqParams.params">
               <div *ngIf="apiModule.reqParams.params">
-                <app-api-param [params]="apiModule.reqParams.params" [require]="true"></app-api-param>
+                <div class="div-table">
+                  <!--表头-->
+                  <table>
+                    <tr>
+                      <th>参数名称</th>
+                      <th>是否必须</th>
+                      <th>类型</th>
+                      <th>默认值</th>
+                      <th>描述</th>
+                    </tr>
+                  </table>
+                  <!--表内容：递归展示出 对象中嵌套对象-->
+                  <app-api-param [params]="apiModule.reqParams.params" [require]="true" [index]="0"></app-api-param>
+                </div>
               </div>
             </div>
+
             <div *ngIf="!apiModule.reqParams||!apiModule.reqParams.params">
               无
             </div>
@@ -86,10 +101,28 @@
             <p class="api-details-title">响应数据</p>
           </div>
           <div class="panel-footer api-panel-footer">
-            <app-api-param [params]="apiModule.respParams.params" [require]="false"></app-api-param>
-          </div>
-          <div *ngIf="!apiModule.respParams.params">
-            无
+
+            <div *ngIf="apiModule.respParams&&apiModule.respParams.params">
+              <div *ngIf="apiModule.respParams.params">
+                <div class="div-table">
+                  <!--表头-->
+                  <table>
+                    <tr>
+                      <th>参数名称</th>
+                      <th>类型</th>
+                      <th>默认值</th>
+                      <th>描述</th>
+                    </tr>
+                  </table>
+                  <!--表内容：递归展示出 对象中嵌套对象-->
+                  <app-api-param [params]="apiModule.respParams.params" [require]="false" [index]="0"></app-api-param>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="!apiModule.respParams.params">
+              无
+            </div>
           </div>
         </div>
 
@@ -141,7 +174,8 @@
             <div *ngIf="paramType==='form'">
               <div *ngIf="showRequestParams">
                 <h5 style="margin: 10px">请求参数：</h5>
-                {{file}}: <input style="font-size: 0.8em; display: inline;" multiple (change)="sendfile($event)"  type="file"/>
+                {{file}}: <input style="font-size: 0.8em; display: inline;" multiple (change)="sendfile($event)"
+                                 type="file"/>
               </div>
 
               <div *ngIf="showDemoRespParams">

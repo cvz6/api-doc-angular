@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-api-param',
   templateUrl: './api-param.component.html',
   styleUrls: ['./api-param.component.scss']
 })
-export class ApiParamComponent implements OnInit {
+export class ApiParamComponent {
 
   @Input()
   params: any;
@@ -13,10 +13,10 @@ export class ApiParamComponent implements OnInit {
   @Input()
   require: boolean;
 
-  constructor() {
-  }
+  @Input()
+  index=0;
 
-  ngOnInit() {
+  constructor() {
   }
 
 }

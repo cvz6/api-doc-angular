@@ -1,20 +1,11 @@
 <div class="div-table">
-  <table>
-    <tr>
-      <th>参数名称</th>
-      <th *ngIf="require">是否必须</th>
-      <th>类型</th>
-      <th>默认值</th>
-      <th>描述</th>
-    </tr>
-  </table>
-  <!--这里假设tree结构不超过5层，时间有限，简单实现，需要时再改-->
+  <!--递归-->
   <div *ngFor="let requestParam of params">
     <!--第1层-->
     <div *ngIf="!requestParam.list">
       <table>
         <tr>
-          <td style="color:red;padding-left: 10px;">{{requestParam.name}}</td>
+          <td [ngStyle]="{'padding-left':(10+20*index)+'px','color':'red'}">{{requestParam.name}}</td>
           <td *ngIf="require">{{requestParam.required}}</td>
           <td>{{requestParam.dataType}}</td>
           <td>{{requestParam.defaultValue}}</td>
@@ -25,123 +16,15 @@
     <div *ngIf="requestParam.list">
       <table>
         <tr>
-          <td style="color:red;padding-left: 10px;">{{requestParam.name}}</td>
+          <td [ngStyle]="{'padding-left':(10+20*index)+'px','color':'red'}">{{requestParam.name}}</td>
           <td *ngIf="require">{{requestParam.required}}</td>
           <td>{{requestParam.dataType}}</td>
           <td>{{requestParam.defaultValue}}</td>
           <td>{{requestParam.description}}</td>
         </tr>
       </table>
-      <!--第2层-->
-      <div *ngFor="let requestParam of requestParam.list">
-        <div *ngIf="!requestParam.list">
-          <table>
-            <tr>
-              <td style="color:red;padding-left: 30px;">{{requestParam.name}}</td>
-              <td *ngIf="require">{{requestParam.required}}</td>
-              <td>{{requestParam.dataType}}</td>
-              <td>{{requestParam.defaultValue}}</td>
-              <td>{{requestParam.description}}</td>
-            </tr>
-          </table>
-        </div>
-        <div *ngIf="requestParam.list">
-          <table>
-            <tr>
-              <td style="color:red;padding-left: 30px;">{{requestParam.name}}</td>
-              <td *ngIf="require">{{requestParam.required}}</td>
-              <td>{{requestParam.dataType}}</td>
-              <td>{{requestParam.defaultValue}}</td>
-              <td>{{requestParam.description}}</td>
-            </tr>
-          </table>
-          <!--第3层-->
-          <div *ngFor="let requestParam of requestParam.list">
-            <div *ngFor="let requestParam of requestParam.list">
-              <div *ngIf="!requestParam.list">
-                <table>
-                  <tr>
-                    <td style="color:red;padding-left: 50px;">{{requestParam.name}}</td>
-                    <td *ngIf="require">{{requestParam.required}}</td>
-                    <td>{{requestParam.dataType}}</td>
-                    <td>{{requestParam.defaultValue}}</td>
-                    <td>{{requestParam.description}}</td>
-                  </tr>
-                </table>
-              </div>
-              <div *ngIf="requestParam.list">
-                <table>
-                  <tr>
-                    <td style="color:red;padding-left: 50px;">{{requestParam.name}}</td>
-                    <td *ngIf="require">{{requestParam.required}}</td>
-                    <td>{{requestParam.dataType}}</td>
-                    <td>{{requestParam.defaultValue}}</td>
-                    <td>{{requestParam.description}}</td>
-                  </tr>
-                </table>
-                <!--第4层-->
-                <div *ngFor="let requestParam of requestParam.list">
-                  <div *ngFor="let requestParam of requestParam.list">
-                    <div *ngIf="!requestParam.list">
-                      <table>
-                        <tr>
-                          <td style="color:red;padding-left: 70px;">{{requestParam.name}}</td>
-                          <td *ngIf="require">{{requestParam.required}}</td>
-                          <td>{{requestParam.dataType}}</td>
-                          <td>{{requestParam.defaultValue}}</td>
-                          <td>{{requestParam.description}}</td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div *ngIf="requestParam.list">
-                      <table>
-                        <tr>
-                          <td style="color:red;padding-left: 70px;">{{requestParam.name}}</td>
-                          <td *ngIf="require">{{requestParam.required}}</td>
-                          <td>{{requestParam.dataType}}</td>
-                          <td>{{requestParam.defaultValue}}</td>
-                          <td>{{requestParam.description}}</td>
-                        </tr>
-                      </table>
-                      <!--第5层-->
-                      <div *ngFor="let requestParam of requestParam.list">
-                        <div *ngFor="let requestParam of requestParam.list">
-                          <div *ngIf="!requestParam.list">
-                            <table>
-                              <tr>
-                                <td style="color:red;padding-left: 90px;">{{requestParam.name}}</td>
-                                <td *ngIf="require">{{requestParam.required}}</td>
-                                <td>{{requestParam.dataType}}</td>
-                                <td>{{requestParam.defaultValue}}</td>
-                                <td>{{requestParam.description}}</td>
-                              </tr>
-                            </table>
-                          </div>
-                          <div *ngIf="requestParam.list">
-                            <table>
-                              <tr>
-                                <td style="color:red;padding-left: 90px;">{{requestParam.name}}</td>
-                                <td *ngIf="require">{{requestParam.required}}</td>
-                                <td>{{requestParam.dataType}}</td>
-                                <td>{{requestParam.defaultValue}}</td>
-                                <td>{{requestParam.description}}</td>
-                              </tr>
-                            </table>
-                            <!--第6层-->
-                            <div *ngFor="let requestParam of requestParam.list">
-                              超过5层，无法显示
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!--第n层-->
+      <app-api-param [params]="requestParam.list" [require]="true" [index]="index+1"></app-api-param>
     </div>
   </div>
 </div>

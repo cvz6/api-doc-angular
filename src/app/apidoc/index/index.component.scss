@@ -119,3 +119,27 @@ textarea {
   font-size: 0.9em;
   color: #108ee9;
 }
+
+.div-table {
+  table {
+    width: 100%;
+    th {
+      text-align: left;
+      padding: 6px;
+      border: 1px solid rgba(92, 102, 94, 0.06);
+      width: 15%;
+      &:last-child {
+        width: 40%;
+      }
+    }
+    td {
+      text-align: left;
+      padding: 6px;
+      border: 1px solid rgba(92, 102, 94, 0.06);
+      width: 15%;
+      &:last-child {
+        width: 40%;
+      }
+    }
+  }
+}
