@@ -167,13 +167,19 @@ export class IndexComponent implements OnInit {
             this.bulidParams(value.list, result[value.name]);
           }
 
-          if (value.dataType === "array") {//数组
+          else if (value.dataType === "array") {//数组
             result[value.name] = [{}];
             this.bulidParams(value.list, result[value.name][0]);
           }
 
         } else {
-          result[value.name] = value.defaultValue;
+
+          if (value.dataType === "array") {
+            result[value.name] = [];
+          } else {
+            result[value.name] = value.defaultValue;
+          }
+
         }
       }
     }
@@ -230,7 +236,7 @@ export class IndexComponent implements OnInit {
 
   //上传文件
   sendfile($event) {
-    this.http.upload(this.apiUrl,$event,this.file).subscribe(data => this.success(data), error => this.error(error));
+    this.http.upload(this.apiUrl, $event, this.file).subscribe(data => this.success(data), error => this.error(error));
 
   }
 
