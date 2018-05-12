@@ -110,16 +110,14 @@ export class IndexComponent implements OnInit {
     this.demoRespParams = null;
     this.showDemoRespParams = null;
     this.paramType = null;
-    this.blobUrl=null;
-    this.showBlob=false;
   }
 
 // 展示某个功能详情
   showApiDetail(rootMapping, module) {
     console.log(JSON.stringify(module));
     //默认描述为 功能名称
-    if(!module.description&&module.name){
-      module.description=module.name;
+    if (!module.description && module.name) {
+      module.description = module.name;
     }
     this.apiModule = module;
     if (!this.apiModule.reqParams) {
@@ -205,11 +203,10 @@ export class IndexComponent implements OnInit {
     console.log('请求地址', this.demoUrl);
     //刷新图片验证码
     if (this.showBlob) {
-      if(this.blobUrl.indexOf("?")>0){
-        this.blobUrl = this.blobUrl.substring(0,this.blobUrl.indexOf("?")) + "?" + new Date();
-      }
+      // this.blobUrl = this.blobUrl.substring(0, this.blobUrl.indexOf("?")) + "?" + new Date();
+      this.blobUrl = this.blobUrl + "?" + new Date();
     }
-
+    
     switch (this.method) {
       case 'get':
         this.http.get(this.demoUrl).subscribe(data => this.success(data), error => this.error(error));
