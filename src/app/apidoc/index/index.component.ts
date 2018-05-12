@@ -40,6 +40,8 @@ export class IndexComponent implements OnInit {
   showDemoRespParams = false;//是否显示响应数据
   ERROR_MSG = '发送错误或异常：造成错误的原因可能是 请求地址错误,服务器无响应或JavaScript跨域错误，具体如下：';
   file;
+  showBlob = false;//是否显示数据流
+  blobUrl;
 
   //上传文件
 
@@ -118,6 +120,9 @@ export class IndexComponent implements OnInit {
     if (!this.apiModule.reqParams) {
       this.apiModule.reqParams = {type: 'url'};//默认为url
     }
+    if(!this.apiModule.reqParams.params||this.apiModule.reqParams.params.length<=0){
+      this.showRequestParams=false;
+    }
     this.method = module.method;
     this.paramType = this.apiModule.reqParams.type;
     this.apiUrl = rootMapping + this.apiModule.mapping;
@@ -141,9 +146,12 @@ export class IndexComponent implements OnInit {
       } else {
         this.mapingUrl = ROOT_URL + this.apiUrl;
       }
-      this.showRequestParams = false;
     } else if (type === 'json') {
       this.mapingUrl = ROOT_URL + this.apiUrl;
+    } else if (type === 'url_blob') {
+      this.showBlob = true;
+      this.mapingUrl = ROOT_URL + this.apiUrl;
+      this.blobUrl=JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
     } else {
       this.mapingUrl = ROOT_URL + this.apiUrl;
     }
@@ -192,6 +200,10 @@ export class IndexComponent implements OnInit {
   sendTest() {
     console.log('请求方式', this.method);
     console.log('请求地址', this.demoUrl);
+    //刷新图片验证码
+    if (this.showBlob) {
+      this.blobUrl = this.blobUrl + "?" + new Date();
+    }
 
     switch (this.method) {
       case 'get':

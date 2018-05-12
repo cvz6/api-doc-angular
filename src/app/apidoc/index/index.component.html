@@ -137,8 +137,10 @@
             <h5 style="margin: 10px">请求地址：</h5>
             <pre>{{mapingUrl}}</pre>
 
-            <h5 style="margin: 10px">请求参数：</h5>
-            <pre>{{buildeReqParams}}</pre>
+            <div *ngIf="showRequestParams">
+              <h5 style="margin: 10px">请求参数：</h5>
+              <pre>{{buildeReqParams}}</pre>
+            </div>
 
             <h5 style="margin: 10px">响应数据：</h5>
             <pre>{{buildRespParams}}</pre>
@@ -165,8 +167,10 @@
 
               <div *ngIf="showDemoRespParams">
                 <h5 style="margin: 10px">响应数据：</h5>
-                <textarea style="height: 600px;background-color: #ffedf4; " nz-input [(ngModel)]="demoRespParams"
+                <textarea *ngIf="!showBlob" style="height: 600px;background-color: #ffedf4; " nz-input
+                          [(ngModel)]="demoRespParams"
                           [nzAutosize]="true"></textarea>
+                <img *ngIf="showBlob" src="{{blobUrl}}">
               </div>
             </div>
 
@@ -180,7 +184,8 @@
 
               <div *ngIf="showDemoRespParams">
                 <h5 style="margin: 10px">响应数据：</h5>
-                <textarea style="height: 600px;background-color: #ffedf4; " nz-input [(ngModel)]="demoRespParams"
+                <textarea style="height: 600px;background-color: #ffedf4; " nz-input
+                          [(ngModel)]="demoRespParams"
                           [nzAutosize]="true"></textarea>
               </div>
             </div>
