@@ -183,13 +183,11 @@ export class IndexComponent implements OnInit {
           }
 
         } else {
-
           if (value.dataType === "array") {
             result[value.name] = [];
           } else {
-            result[value.name] = value.defaultValue;
+            result[value.name] = value.defaultValue?value.defaultValue:"";
           }
-
         }
       }
     }
