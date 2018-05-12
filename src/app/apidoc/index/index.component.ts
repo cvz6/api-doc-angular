@@ -38,26 +38,10 @@ export class IndexComponent implements OnInit {
   demoUrl;//请求url
   demoRespParams: any;//请求后得到的数据
   showDemoRespParams = false;//是否显示响应数据
-  ERROR_MSG: any = '请求地址错误,服务器无响应或JavaScript跨域错误';
-  file;//上传文件
+  ERROR_MSG = '发送错误或异常：造成错误的原因可能是 请求地址错误,服务器无响应或JavaScript跨域错误，具体如下：';
+  file;
 
-  /**
-   * 清空缓存
-   */
-  private clearCache() {
-    this.isVisible = true;
-    this.method = null;
-    this.mapingUrl = null;
-    this.apiUrl = null;
-    this.showRequestParams = true;
-    this.buildeReqParams = null;
-    this.buildRespParams = null;
-    this.demoReqParams = null;
-    this.demoUrl = null;
-    this.demoRespParams = null;
-    this.showDemoRespParams = null;
-    this.paramType = null;
-  }
+  //上传文件
 
 
   constructor(private http: HttpService,
@@ -106,6 +90,24 @@ export class IndexComponent implements OnInit {
       }
     );
 
+  }
+
+  /**
+   * 清空缓存
+   */
+  private clearCache() {
+    this.isVisible = true;
+    this.method = null;
+    this.mapingUrl = null;
+    this.apiUrl = null;
+    this.showRequestParams = true;
+    this.buildeReqParams = null;
+    this.buildRespParams = null;
+    this.demoReqParams = null;
+    this.demoUrl = null;
+    this.demoRespParams = null;
+    this.showDemoRespParams = null;
+    this.paramType = null;
   }
 
 // 展示某个功能详情
@@ -188,7 +190,6 @@ export class IndexComponent implements OnInit {
 
   //发送测试方法
   sendTest() {
-    this.isVisible = true;
     console.log('请求方式', this.method);
     console.log('请求地址', this.demoUrl);
 
@@ -197,13 +198,13 @@ export class IndexComponent implements OnInit {
         this.http.get(this.demoUrl).subscribe(data => this.success(data), error => this.error(error));
         break;
       case 'post':
-        this.http.post(this.apiUrl, JSON.parse(this.demoReqParams)).subscribe(data => this.success(data), error => this.error(error));
+        this.http.post(this.demoUrl, JSON.parse(this.demoReqParams)).subscribe(data => this.success(data), error => this.error(error));
         break;
       case 'put':
-        this.http.put(this.apiUrl, JSON.parse(this.demoReqParams)).subscribe(data => this.success(data), error => this.error(error));
+        this.http.put(this.demoUrl, JSON.parse(this.demoReqParams)).subscribe(data => this.success(data), error => this.error(error));
         break;
       case 'delete':
-        this.http.delete(this.apiUrl).subscribe(data => this.success(data), error => this.error(error));
+        this.http.delete(this.demoUrl).subscribe(data => this.success(data), error => this.error(error));
         break;
     }
 
@@ -214,9 +215,9 @@ export class IndexComponent implements OnInit {
    * @param data 响应数据
    */
   private success(data) {
-    this.isVisible = false;
-    this.demoRespParams = this.fromtJSON(data);
     this.showDemoRespParams = true;
+    console.log(data);
+    this.demoRespParams = this.fromtJSON(data);
   }
 
   /**
@@ -224,14 +225,24 @@ export class IndexComponent implements OnInit {
    * @param error
    */
   private error(error) {
-    this.isVisible = false;
-    console.log(error);
-    this.demoRespParams = this.ERROR_MSG + "   " + JSON.stringify(error);
+    this.showDemoRespParams = true;
+    console.error(error);
+    let msg = "";
+    if (error.status) {
+      msg = msg + "状态码：" + error.status + "\n";
+    }
+    if (error.url) {
+      msg = msg + "请求路径：" + error.url + "\n";
+    }
+    if (error.message) {
+      msg = msg + "提示信息：" + error.message + "\n";
+    }
+    this.demoRespParams = msg + "\n\n" + this.ERROR_MSG + "\n\n" + this.fromtJSON(error);
   }
 
   //格式化json数据
-  private fromtJSON(josn): any {
-    return JSON.stringify(josn, null, 2);
+  private fromtJSON(json): any {
+    return JSON.stringify(json, null, 2);
   }
 
   //上传文件
