@@ -120,8 +120,8 @@ export class IndexComponent implements OnInit {
     if (!this.apiModule.reqParams) {
       this.apiModule.reqParams = {type: 'url'};//默认为url
     }
-    if(!this.apiModule.reqParams.params||this.apiModule.reqParams.params.length<=0){
-      this.showRequestParams=false;
+    if (!this.apiModule.reqParams.params || this.apiModule.reqParams.params.length <= 0) {
+      this.showRequestParams = false;
     }
     this.method = module.method;
     this.paramType = this.apiModule.reqParams.type;
@@ -151,7 +151,7 @@ export class IndexComponent implements OnInit {
     } else if (type === 'url_blob') {
       this.showBlob = true;
       this.mapingUrl = ROOT_URL + this.apiUrl;
-      this.blobUrl=JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
+      this.blobUrl = JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
     } else {
       this.mapingUrl = ROOT_URL + this.apiUrl;
     }
@@ -172,21 +172,21 @@ export class IndexComponent implements OnInit {
       for (const value of params) {
         if (value.list && value.list.length > 0) {
 
+          //把list递归
           if (value.dataType === "object") {//对象
             result[value.name] = {};
             this.bulidParams(value.list, result[value.name]);
-          }
-
-          else if (value.dataType === "array") {//数组
+          } else if (value.dataType === "array") {//数组
             result[value.name] = [{}];
             this.bulidParams(value.list, result[value.name][0]);
           }
 
         } else {
+          //构建拼接参数
           if (value.dataType === "array") {
             result[value.name] = [];
           } else {
-            result[value.name] = value.defaultValue?value.defaultValue:"";
+            result[value.name] = value.description ? value.description : "";//赋值为描述
           }
         }
       }
