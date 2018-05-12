@@ -108,6 +108,13 @@
   line-height: 32px;
   background: #eee;
 }
+:host ::ng-deep nz-layout{
+  overflow: hidden;
+}
+:host ::ng-deep nz-sider{
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
 
 .oinp {
   border: none;
