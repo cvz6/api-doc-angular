@@ -130,12 +130,12 @@
         <div *ngIf="apiModule.respParams&&apiModule.reqParams&&paramType!=='form'" class="panel panel-success">
           <div class="panel-body api-panel-title" style="padding: 0;">
             <p class="api-details-title">示例
-              <span style="color: #108ee9;">(*请求时Header要携带token)</span>
+              <span style="color: red">(*注意：请在headers中携带cookie或者token令牌，以保证访问安全或权限校验)</span>
             </p>
           </div>
           <div class="panel-footer api-panel-footer">
             <h5 style="margin: 10px">请求地址：</h5>
-            <pre>{{mapingUrl}}</pre>
+            <pre>{{URL+mapingUrl}}</pre>
 
             <div *ngIf="showRequestParams">
               <h5 style="margin: 10px">请求参数：</h5>
@@ -203,7 +203,7 @@
       {{apiInfo.title}}<span> （文档版本： {{apiInfo.version}}） </span>
     </div>
     <div *ngIf="apiInfo&&apiInfo.description"
-         style="color: #000000;text-align: center;width: 60%;margin-top: 20px;margin-left: 20%;">
+         style="color: #000000;padding:10px;width: 60%;margin-top: 20px;margin-left: 20%;">
       <pre style="background: #ffffff;">{{apiInfo.description}}</pre>
     </div>
   </nz-content>

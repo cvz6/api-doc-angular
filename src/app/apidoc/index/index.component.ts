@@ -16,7 +16,7 @@ import {NzMessageService} from 'ng-zorro-antd';
 })
 export class IndexComponent implements OnInit {
 
-  URL = ROOT_URL+"/";
+  URL = ROOT_URL + "/";
   isVisible = false;//加载中弹窗是否显示
   show = false;//显示文档
 
@@ -140,7 +140,7 @@ export class IndexComponent implements OnInit {
   //构建请求参数
   buildRequestParams(module) {
     const type = module.reqParams.type;//请求类型
-    if(!module.reqParams||!module.respParams){
+    if (!module.reqParams || !module.respParams) {
       return;
     }
     const reqparams = module.reqParams.params;//请求参数
@@ -150,7 +150,34 @@ export class IndexComponent implements OnInit {
     if (type === 'url') {
       if (this.apiModule && this.apiModule.reqParams && this.apiModule.reqParams.params &&
         this.apiModule.reqParams.params.length > 0) {
-        this.mapingUrl = this.apiUrl + '/这里写你的参数';
+        //拼接参数 以/隔开
+        let url = this.apiUrl;
+        for (const param of  this.apiModule.reqParams.params) {
+          console.log(url);
+          param.description = param.description ? param.description : '参数';
+          url = url + "/" + param.description;
+        }
+        this.mapingUrl = url;
+      } else {
+        this.mapingUrl = this.apiUrl;
+      }
+    } else if (type === 'url_param') {
+      if (this.apiModule && this.apiModule.reqParams && this.apiModule.reqParams.params &&
+        this.apiModule.reqParams.params.length > 0) {
+        //拼接参数 以?隔开
+        let url = this.apiUrl;
+        let i = 0;
+        for (const param of  this.apiModule.reqParams.params) {
+          i++;
+          console.log(url);
+          param.description = param.description ? param.description : '参数';
+          if(i===1){
+            url = url + "?" + param.name+"="+param.description;
+          }else{
+            url = url + "&" + param.name+"="+param.description;
+          }
+        }
+        this.mapingUrl = url;
       } else {
         this.mapingUrl = this.apiUrl;
       }
