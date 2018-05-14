@@ -50,6 +50,7 @@ export class IndexComponent implements OnInit {
 
   constructor(private http: HttpService,
               private  messageService: NzMessageService) {
+    this.URL = ROOT_URL + "/";
   }
 
   ngOnInit() {
@@ -102,7 +103,7 @@ export class IndexComponent implements OnInit {
   private clearCache() {
     this.isVisible = true;
     this.method = null;
-    this.mapingUrl = null;
+    this.mapingUrl = "/";
     this.apiUrl = null;
     this.showRequestParams = true;
     this.buildeReqParams = null;
@@ -153,7 +154,7 @@ export class IndexComponent implements OnInit {
         //拼接参数 以/隔开
         let url = this.apiUrl;
         for (const param of  this.apiModule.reqParams.params) {
-          console.log(url);
+          // console.log(url);
           param.description = param.description ? param.description : '参数';
           url = url + "/" + param.description;
         }
@@ -171,10 +172,10 @@ export class IndexComponent implements OnInit {
           i++;
           console.log(url);
           param.description = param.description ? param.description : '参数';
-          if(i===1){
-            url = url + "?" + param.name+"="+param.description;
-          }else{
-            url = url + "&" + param.name+"="+param.description;
+          if (i === 1) {
+            url = url + "?" + param.name + "=" + param.description;
+          } else {
+            url = url + "&" + param.name + "=" + param.description;
           }
         }
         this.mapingUrl = url;
@@ -186,7 +187,7 @@ export class IndexComponent implements OnInit {
     } else if (type === 'url_blob') {
       this.showBlob = true;
       this.mapingUrl = this.apiUrl;
-      this.blobUrl = JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
+      this.blobUrl = this.URL + "/" + JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
     } else {
       this.mapingUrl = this.apiUrl;
     }
@@ -194,7 +195,7 @@ export class IndexComponent implements OnInit {
     this.buildRespParams = this.fromtJSON(this.bulidParams(respparams, {}));
 
     this.demoReqParams = JSON.parse(JSON.stringify(this.buildeReqParams));//得到一个拷贝，给演示功能用 目的：隔断双向绑定
-    this.demoUrl = this.URL + JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
+    this.demoUrl = this.URL + "/" + JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
     if (type === 'form') {
       console.log(Object.keys(JSON.parse(this.demoReqParams)));
       this.file = Object.keys(JSON.parse(this.demoReqParams))[0];
@@ -237,6 +238,7 @@ export class IndexComponent implements OnInit {
     if (this.showBlob) {
       // this.blobUrl = this.blobUrl.substring(0, this.blobUrl.indexOf("?")) + "?" + new Date();
       this.blobUrl = this.blobUrl + "?" + new Date();
+      console.log(this.blobUrl);
     }
 
     switch (this.method) {
