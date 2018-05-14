@@ -187,7 +187,7 @@ export class IndexComponent implements OnInit {
     } else if (type === 'url_blob') {
       this.showBlob = true;
       this.mapingUrl = this.apiUrl;
-      this.blobUrl = this.URL + "/" + JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
+      this.blobUrl = this.URL + JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
     } else {
       this.mapingUrl = this.apiUrl;
     }
@@ -195,7 +195,7 @@ export class IndexComponent implements OnInit {
     this.buildRespParams = this.fromtJSON(this.bulidParams(respparams, {}));
 
     this.demoReqParams = JSON.parse(JSON.stringify(this.buildeReqParams));//得到一个拷贝，给演示功能用 目的：隔断双向绑定
-    this.demoUrl = this.URL + "/" + JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
+    this.demoUrl = this.URL + JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
     if (type === 'form') {
       console.log(Object.keys(JSON.parse(this.demoReqParams)));
       this.file = Object.keys(JSON.parse(this.demoReqParams))[0];
