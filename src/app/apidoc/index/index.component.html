@@ -120,14 +120,14 @@
               </div>
             </div>
 
-            <div *ngIf="!apiModule.respParams.params">
+            <div *ngIf="!apiModule.respParams||!apiModule.respParams.params">
               无
             </div>
           </div>
         </div>
 
         <!--示例-->
-        <div class="panel panel-success" *ngIf="paramType!=='form'">
+        <div *ngIf="apiModule.respParams&&apiModule.reqParams&&paramType!=='form'" class="panel panel-success">
           <div class="panel-body api-panel-title" style="padding: 0;">
             <p class="api-details-title">示例
               <span style="color: #108ee9;">(*请求时Header要携带token)</span>
@@ -148,7 +148,7 @@
         </div>
 
         <!--演示-->
-        <div class="panel panel-success">
+        <div *ngIf="apiModule.respParams&&apiModule.reqParams" class="panel panel-success">
           <div class="panel-body api-panel-title" style="padding: 0;">
             <p class="api-details-title">演示</p>
           </div>
@@ -201,6 +201,10 @@
     <!--版本信息-->
     <div class="centerLogo" *ngIf="apiInfo">
       {{apiInfo.title}}<span> （文档版本： {{apiInfo.version}}） </span>
+    </div>
+    <div *ngIf="apiInfo&&apiInfo.description"
+         style="color: #000000;text-align: center;width: 60%;margin-top: 20px;margin-left: 20%;">
+      <pre style="background: #ffffff;">{{apiInfo.description}}</pre>
     </div>
   </nz-content>
 </nz-layout>

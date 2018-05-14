@@ -16,6 +16,7 @@ import {NzMessageService} from 'ng-zorro-antd';
 })
 export class IndexComponent implements OnInit {
 
+  URL = ROOT_URL+"/";
   isVisible = false;//加载中弹窗是否显示
   show = false;//显示文档
 
@@ -43,6 +44,7 @@ export class IndexComponent implements OnInit {
   showBlob = false;//是否显示数据流
   blobUrl;
 
+
   //上传文件
 
 
@@ -57,7 +59,7 @@ export class IndexComponent implements OnInit {
 
   getData() {
     this.isVisible = true;
-    this.http.get('/apidoc/api/' + TYPE).subscribe(
+    this.http.get(this.URL + '/apidoc/api/' + TYPE).subscribe(
       data => {
         this.isVisible = false;
         if (data && data["info"]) {
@@ -79,8 +81,8 @@ export class IndexComponent implements OnInit {
   getApiDetail(rootMapping, moduleItem) {
     //清空缓存
     this.clearCache();
-    console.log('/apidoc/detail?methodUUID=' + moduleItem.methoduuid);
-    this.http.get('/apidoc/detail?methodUUID=' + moduleItem.methoduuid).subscribe(
+    console.log(this.URL + '/apidoc/detail?methodUUID=' + moduleItem.methoduuid);
+    this.http.get(this.URL + '/apidoc/detail?methodUUID=' + moduleItem.methoduuid).subscribe(
       data => {
         this.isVisible = false;
         this.showApiDetail(rootMapping, data);
@@ -138,6 +140,9 @@ export class IndexComponent implements OnInit {
   //构建请求参数
   buildRequestParams(module) {
     const type = module.reqParams.type;//请求类型
+    if(!module.reqParams||!module.respParams){
+      return;
+    }
     const reqparams = module.reqParams.params;//请求参数
     const respparams = module.respParams.params;//请求参数
 
@@ -145,24 +150,24 @@ export class IndexComponent implements OnInit {
     if (type === 'url') {
       if (this.apiModule && this.apiModule.reqParams && this.apiModule.reqParams.params &&
         this.apiModule.reqParams.params.length > 0) {
-        this.mapingUrl = ROOT_URL + this.apiUrl + '/这里写你的参数';
+        this.mapingUrl = this.apiUrl + '/这里写你的参数';
       } else {
-        this.mapingUrl = ROOT_URL + this.apiUrl;
+        this.mapingUrl = this.apiUrl;
       }
     } else if (type === 'json') {
-      this.mapingUrl = ROOT_URL + this.apiUrl;
+      this.mapingUrl = this.apiUrl;
     } else if (type === 'url_blob') {
       this.showBlob = true;
-      this.mapingUrl = ROOT_URL + this.apiUrl;
+      this.mapingUrl = this.apiUrl;
       this.blobUrl = JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
     } else {
-      this.mapingUrl = ROOT_URL + this.apiUrl;
+      this.mapingUrl = this.apiUrl;
     }
     this.buildeReqParams = this.fromtJSON(this.bulidParams(reqparams, {}));
     this.buildRespParams = this.fromtJSON(this.bulidParams(respparams, {}));
 
     this.demoReqParams = JSON.parse(JSON.stringify(this.buildeReqParams));//得到一个拷贝，给演示功能用 目的：隔断双向绑定
-    this.demoUrl = JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
+    this.demoUrl = this.URL + JSON.parse(JSON.stringify(this.mapingUrl));//得到一个拷贝
     if (type === 'form') {
       console.log(Object.keys(JSON.parse(this.demoReqParams)));
       this.file = Object.keys(JSON.parse(this.demoReqParams))[0];
@@ -206,7 +211,7 @@ export class IndexComponent implements OnInit {
       // this.blobUrl = this.blobUrl.substring(0, this.blobUrl.indexOf("?")) + "?" + new Date();
       this.blobUrl = this.blobUrl + "?" + new Date();
     }
-    
+
     switch (this.method) {
       case 'get':
         this.http.get(this.demoUrl).subscribe(data => this.success(data), error => this.error(error));
