@@ -113,6 +113,7 @@ export class IndexComponent implements OnInit {
     this.demoRespParams = null;
     this.showDemoRespParams = null;
     this.paramType = null;
+    this.showBlob=false;
   }
 
 // 展示某个功能详情
@@ -126,7 +127,9 @@ export class IndexComponent implements OnInit {
     if (!this.apiModule.reqParams) {
       this.apiModule.reqParams = {type: 'url'};//默认为url
     }
-    if (!this.apiModule.reqParams.params || this.apiModule.reqParams.params.length <= 0) {
+    if (this.apiModule.reqParams.type === 'url' ||
+      this.apiModule.reqParams.type === 'url_blob' ||
+      this.apiModule.reqParams.type === 'url_param') {
       this.showRequestParams = false;
     }
     this.method = module.method;

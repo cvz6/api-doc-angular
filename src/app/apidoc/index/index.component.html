@@ -70,7 +70,11 @@
           </div>
           <div class="panel-footer api-panel-footer">
 
-            <div *ngIf="apiModule.reqParams&&apiModule.reqParams.params">
+            <div *ngIf="apiModule.reqParams">
+                   <pre *ngIf="apiModule.reqParams.description"
+                        style="background: #ffffff;border: 1px solid seashell;margin: 8px 0px;text-align: left;">
+              {{apiModule.reqParams.description}}
+            </pre>
               <div *ngIf="apiModule.reqParams.params">
                 <div class="div-table">
                   <!--表头-->
@@ -89,7 +93,7 @@
               </div>
             </div>
 
-            <div *ngIf="!apiModule.reqParams||!apiModule.reqParams.params">
+            <div *ngIf="!apiModule.reqParams">
               无
             </div>
           </div>
@@ -101,8 +105,12 @@
             <p class="api-details-title">响应数据</p>
           </div>
           <div class="panel-footer api-panel-footer">
+            <div *ngIf="apiModule.respParams">
 
-            <div *ngIf="apiModule.respParams&&apiModule.respParams.params">
+                   <pre *ngIf="apiModule.respParams.description"
+                        style="background: #ffffff;border: 1px solid seashell;margin: 8px 0px;text-align: left;">
+              {{apiModule.respParams.description}}
+            </pre>
               <div *ngIf="apiModule.respParams.params">
                 <div class="div-table">
                   <!--表头-->
@@ -120,7 +128,7 @@
               </div>
             </div>
 
-            <div *ngIf="!apiModule.respParams||!apiModule.respParams.params">
+            <div *ngIf="!apiModule.respParams">
               无
             </div>
           </div>
