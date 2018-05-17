@@ -1,9 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 import {HttpService} from "./http-service.service";
 import {InterfaceModule} from './apidoc/apidoc.module';
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AuthInterceptor} from "./auto-intercepter";
 
 @NgModule({
   declarations: [
@@ -13,7 +15,15 @@ import {InterfaceModule} from './apidoc/apidoc.module';
     BrowserModule,
     InterfaceModule
   ],
-  providers: [HttpService],
+  providers: [
+    HttpService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

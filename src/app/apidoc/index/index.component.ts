@@ -113,7 +113,7 @@ export class IndexComponent implements OnInit {
     this.demoRespParams = null;
     this.showDemoRespParams = null;
     this.paramType = null;
-    this.showBlob=false;
+    this.showBlob = false;
   }
 
 // 展示某个功能详情
@@ -266,6 +266,11 @@ export class IndexComponent implements OnInit {
    * @param data 响应数据
    */
   private success(data) {
+    //登陆后保存token
+    if (data && data.data && data.data.token) {
+      console.log("设置token", data.data.token);
+      localStorage.setItem("token", data.data.token);
+    }
     this.showDemoRespParams = true;
     console.log(data);
     this.demoRespParams = this.fromtJSON(data);
