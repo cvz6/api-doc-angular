@@ -225,13 +225,23 @@ export class IndexComponent implements OnInit {
           if (value.dataType === "array") {
             result[value.name] = [];
           } else {
-            result[value.name] = value.description ? value.description : "";//赋值为描述
+            //生成模拟数据
+            let mock: any = "";
+            if (value.defaultValue) {
+              mock = value.defaultValue;
+            } else {
+              if (value.dataType === "number") {
+                mock = 0;
+              }
+            }
+            result[value.name] = mock;//赋值为描述
           }
         }
       }
     }
     return result;
   }
+
 
   //发送测试方法
   sendTest() {
