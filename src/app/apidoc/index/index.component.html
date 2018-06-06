@@ -17,8 +17,8 @@
     </div>
     <!--菜单列表-->
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'">
-      <li nz-submenu *ngFor="let modules of apiModules; let it = index;">
-        <span title><i class="anticon anticon-right-circle-o"></i>{{modules.name}}</span>
+      <li nz-submenu *ngFor="let modules of apiModules; let i = index;">
+        <span title><i class="anticon anticon-right-circle-o"></i>{{i}}.  {{modules.name}}</span>
         <ul *ngIf="modules.list">
           <li nz-menu-item *ngFor="let moduleItem of modules.list"
               (click)="getApiDetail(modules.rootMapping,moduleItem)">
